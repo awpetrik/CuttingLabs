@@ -324,7 +324,7 @@ def _run_local_segmentation(image_bytes: bytes) -> Dict[str, Any]:
         cutout_bytes, mask_bytes, metadata = generate_mask(image_bytes)
         
         # Create synthetic candidate data for compatibility
-        image = Image.open(io.BytesIO(image_bytes))
+        image = open_image_or_raise(image_bytes)
         width, height = image.size
         
         # Full image bounding box (RMBG doesn't provide specific box)

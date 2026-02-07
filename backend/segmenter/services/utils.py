@@ -63,9 +63,12 @@ def decode_base64_bytes(data: str) -> bytes:
     return base64.b64decode(cleaned, validate=False)
 
 
+from PIL import Image, ImageOps, UnidentifiedImageError, features
+
 def open_image_or_raise(image_bytes: bytes) -> Image.Image:
     try:
-        return Image.open(io.BytesIO(image_bytes))
+        img = Image.open(io.BytesIO(image_bytes))
+        return ImageOps.exif_transpose(img)
     except UnidentifiedImageError as exc:
         if not features.check('webp'):
             raise ValueError('WEBP not supported on server') from exc

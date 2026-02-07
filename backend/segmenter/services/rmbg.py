@@ -8,7 +8,7 @@ import os
 import io
 import time
 from typing import Optional, Tuple, Any
-from PIL import Image
+from PIL import Image, ImageOps
 import numpy as np
 
 
@@ -139,7 +139,7 @@ def remove_background(
         start = time.time()
         
         # Process image
-        input_image = Image.open(io.BytesIO(image_bytes))
+        input_image = ImageOps.exif_transpose(Image.open(io.BytesIO(image_bytes)))
         original_size = input_image.size
         
         output_image = remove(
@@ -186,7 +186,7 @@ def generate_mask(image_bytes: bytes) -> Tuple[bytes, bytes, dict]:
         session, device = _get_processor()
         
         start = time.time()
-        input_image = Image.open(io.BytesIO(image_bytes)).convert("RGBA")
+        input_image = ImageOps.exif_transpose(Image.open(io.BytesIO(image_bytes))).convert("RGBA")
         
         # Get cutout
         cutout = remove(input_image, session=session, alpha_matting=True)
