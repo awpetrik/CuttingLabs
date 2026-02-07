@@ -1,5 +1,9 @@
 # CuttingLabs ✂️
 
+<p>
+  <img width="1600" height="953" alt="image" src="https://github.com/user-attachments/assets/fdde9e18-599e-4021-b96f-759d054fcf14" />
+</p>
+
 **CuttingLabs** is a high-performance image segmentation application that leverages a hybrid AI approach, utilizing Google Gemini API for cloud-based precision and RMBG-2.0 for fast, local background removal. Built with Next.js and Django, it features a professional comparison UI with perfect 1:1 alignment, real-time edge refinement, and intelligent hardware-accelerated fallback to ensure a seamless and efficient cutout workflow.
 
 ## Key Features
