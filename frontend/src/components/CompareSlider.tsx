@@ -19,6 +19,8 @@ import {
   Paintbrush,
   ChevronLeft,
   ChevronRight,
+  Eye,
+  EyeOff,
 } from 'lucide-react';
 import type { SegmentCandidate } from '@/lib/types';
 
@@ -75,8 +77,10 @@ export const CompareSlider = forwardRef<CompareHandle, CompareSliderProps>(
     // Comparison slider state
     const [sliderPosition, setSliderPosition] = useState(50);
     const [isDraggingSlider, setIsDraggingSlider] = useState(false);
+    const [showDetections, setShowDetections] = useState(false);
 
     const dragRef = useRef<{ x: number; y: number; panX: number; panY: number } | null>(null);
+
 
     const baseScale = useMemo(() => {
       if (!containerSize.width || !containerSize.height || !imageSize.width || !imageSize.height) {
@@ -393,7 +397,20 @@ export const CompareSlider = forwardRef<CompareHandle, CompareSliderProps>(
         )}
 
         {/* Zoom/Pan Controls */}
-        <div className="absolute right-4 bottom-4 z-20 flex items-center gap-2 rounded-2xl border border-border bg-surface/80 p-2 shadow-soft backdrop-blur">
+        <div
+          className="absolute right-4 bottom-4 z-20 flex items-center gap-2 rounded-2xl border border-border bg-surface/80 p-2 shadow-soft backdrop-blur"
+          onPointerDown={(e) => e.stopPropagation()}
+        >
+          <button
+            type="button"
+            onClick={() => setShowDetections(!showDetections)}
+            className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors ${showDetections ? 'bg-accent/10 text-accent' : 'text-subtle hover:text-text'
+              }`}
+            title={showDetections ? "Hide search" : "Show search"}
+          >
+            {showDetections ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+          </button>
+          <div className="w-[1px] h-4 bg-border mx-1" />
           <button
             type="button"
             onClick={() => setZoom((z) => clamp(z - 0.1, 0.5, 6))}
@@ -534,7 +551,7 @@ export const CompareSlider = forwardRef<CompareHandle, CompareSliderProps>(
         </div>
 
         {/* Candidate overlays */}
-        {candidateOverlays.length > 0 && (view === 'compare' || view === 'original') && (
+        {candidateOverlays.length > 0 && showDetections && (view === 'compare' || view === 'original') && (
           <div className="pointer-events-none absolute inset-0 z-30">
             {candidateOverlays.map((box) => {
               const isSelected = selectedCandidate === box.index;
