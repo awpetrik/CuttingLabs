@@ -1,0 +1,17 @@
+# Backend
+backend/.env
+backend/.venv/
+backend/__pycache__/
+backend/*.sqlite3
+backend/media/
+backend/.DS_Store
+
+# Frontend
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local
+frontend/.DS_Store
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --surface: 255 255 255;
+  --surface-2: 245 247 250;
+  --border: 228 231 236;
+  --text: 17 24 39;
+  --text-subtle: 100 116 139;
+  --accent: 0 122 255;
+  --accent-2: 88 80 236;
+}
+
+.dark {
+  --surface: 15 18 25;
+  --surface-2: 23 28 36;
+  --border: 40 46 56;
+  --text: 226 232 240;
+  --text-subtle: 148 163 184;
+  --accent: 64 140 255;
+  --accent-2: 120 119 255;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  @apply bg-surface text-text;
+  min-height: 100vh;
+}
+
+::selection {
+  background: rgba(88, 80, 236, 0.25);
+}
+
+.checker {
+  background-image: linear-gradient(45deg, rgba(148, 163, 184, 0.15) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(148, 163, 184, 0.15) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(148, 163, 184, 0.15) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(148, 163, 184, 0.15) 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+input[type='range'] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.35);
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgb(var(--accent));
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgb(var(--accent));
+  border: none;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+}
