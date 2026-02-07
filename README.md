@@ -1,96 +1,39 @@
-# CutoutLab
+# CuttingLabs ✂️
 
-Production-ready monorepo for an Apple‑inspired image cutout generator. The backend uses Django + DRF with Gemini 2.5 Flash for segmentation, and the frontend is Next.js (App Router) with TailwindCSS.
+**CuttingLabs** is a high-performance image segmentation application that leverages a hybrid AI approach, utilizing Google Gemini API for cloud-based precision and RMBG-2.0 for fast, local background removal. Built with Next.js and Django, it features a professional comparison UI with perfect 1:1 alignment, real-time edge refinement, and intelligent hardware-accelerated fallback to ensure a seamless and efficient cutout workflow.
 
-## Structure
+## Key Features
+- **Hybrid AI Segmentation**: Seamlessly switch between Gemini (Cloud) and RMBG-2.0 (Local).
+- **Pro Comparison Slider**: Precision 1:1 alignment for accurate before/after viewing.
+- **Hardware Acceleration**: Automatic detection of CUDA, MPS, or CPU for local processing.
+- **Edge Refinement**: Granular control over Threshold, Feather, and Padding.
+- **Fast Fallback**: Intelligent automatic switching to local model based on API quota or timeout.
 
-```
-frontend/   # Next.js App Router + Tailwind
-backend/    # Django + DRF + Celery
-```
+## Tech Stack
+- **Frontend**: Next.js 14, Tailwind CSS, Lucide Icons.
+- **Backend**: Django, Django REST Framework, Celery, Redis.
+- **AI Models**: Google Gemini Pro Vision, RMBG-2.0 (ONNX).
+- **Processing**: Pillow, NumPy, ONNX Runtime.
 
-## Features (MVP)
+## Getting Started
 
-- Drag & drop uploads (single, multiple, folder)
-- Concurrency‑limited processing queue + per‑file status
-- Gemini 2.5 Flash segmentation, mask post‑processing, PNG cutout export
-- Reprocess with live params (threshold, feather, padding, auto‑enhance)
-- Batch export ZIP + per‑item download
-- Light/dark mode, clean Apple‑style UI
+### Prerequisites
+- Python 3.10+
+- Node.js 18+
+- Docker (optional)
 
-## Quick Start (Docker)
+### Setup
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/awpetrik/CuttingLabs.git
+   ```
+2. Setup Backend:
+   - Create `.env` from `.env.example` and add your `GEMINI_API_KEY`.
+   - Install dependencies: `pip install -r requirements.txt`.
+   - Run: `python manage.py runserver`.
+3. Setup Frontend:
+   - Install dependencies: `npm install`.
+   - Run: `npm run dev`.
 
-```
-docker compose up --build
-```
-
-Services:
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:8000
-
-## Manual Setup
-
-### Backend
-
-```
-cd backend
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env
-python manage.py migrate
-python manage.py runserver 0.0.0.0:8000
-```
-
-Start the Celery worker:
-
-```
-cd backend
-source .venv/bin/activate
-celery -A config worker -l info
-```
-
-### Frontend
-
-```
-cd frontend
-npm install
-cp .env.example .env.local
-npm run dev
-```
-
-## Environment Variables
-
-Backend (`backend/.env`):
-- `GEMINI_API_KEY` – required
-- `GEMINI_MODEL` – default `gemini-2.5-flash`
-- `DJANGO_SECRET_KEY`
-- `DJANGO_ALLOWED_HOSTS`
-- `CORS_ALLOWED_ORIGINS`
-- `CELERY_BROKER_URL`
-- `CELERY_RESULT_BACKEND`
-- `MAX_UPLOAD_SIZE`
-
-Frontend (`frontend/.env.local`):
-- `NEXT_PUBLIC_API_URL` – `http://localhost:8000`
-
-## API Endpoints
-
-- `POST /api/upload` – optional upload
-- `POST /api/segment` – multipart (file or `file_id`) + params
-- `GET /api/job/<id>` – job status + result
-- `GET /api/download/<id>` – PNG download
-- `GET /api/download_zip?ids=...` – ZIP download
-
-## Tests
-
-```
-cd backend
-python manage.py test
-```
-
-## Notes
-
-- Folder upload works best in Chromium-based browsers via `webkitdirectory`.
-- The queue caps concurrent processing to keep the UI responsive.
-- Results are cached by image hash + params.
+## License
+MIT
